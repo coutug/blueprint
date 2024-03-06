@@ -1,0 +1,19 @@
+apiVersion: fn.kpt.dev/v1alpha1
+kind: ApplyReplacements
+metadata:
+  name: replacements-fn-config
+  labels:
+    app: test-app
+replacements:
+- source:
+    kind: ConfigMap
+    name: apply-setters-fn-config
+    fieldPath: data.env
+  targets:
+  - select:
+      name: test-app
+      kind: Deployment
+    fieldPath:
+    - spec.template.spec.containers.[name=test-app].env
+    options:
+      create: true
